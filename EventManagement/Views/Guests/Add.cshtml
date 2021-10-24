@@ -1,0 +1,122 @@
+﻿@model EventManagement.ViewModels.GuestViewModel
+
+@{
+    ViewData["Title"] = "Add guest";
+}
+
+<h1>Add</h1>
+
+<h4>Guest</h4>
+<hr />
+<div class="row" id="PrivateGuestDivId">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label boldform">Guest type</label>
+                <select asp-for="GuestType" class="form-control" id="PrivateGuestTypeSelectId">
+                    <option value="" class="">please select a guest type</option>
+                    @foreach (string type in @ViewBag.GuestTypes)
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group" id="PrivateGuestFirstNameTextBox">
+                <label asp-for="PrivateGuestViewModel.FirstName" class="control-label boldform"></label>
+                <input asp-for="PrivateGuestViewModel.FirstName" class="form-control" />
+                <span asp-validation-for="PrivateGuestViewModel.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="PrivateGuestLastNameTextBox">
+                <label asp-for="PrivateGuestViewModel.LastName" class="control-label boldform"></label>
+                <input asp-for="PrivateGuestViewModel.LastName" class="form-control" />
+                <span asp-validation-for="PrivateGuestViewModel.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="PrivateGuestPersonalIdentificationCodeTextBox">
+                <label asp-for="PrivateGuestViewModel.PersonalIdentificationCode" class="control-label boldform"></label>
+                <input asp-for="PrivateGuestViewModel.PersonalIdentificationCode" class="form-control" />
+                <span asp-validation-for="PrivateGuestViewModel.PersonalIdentificationCode" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="PrivateGuestPaymentOptionTextBox">
+                <label asp-for="PrivateGuestViewModel.PaymentOption" class="control-label boldform"></label>
+                <select class="form-control">
+                    <option value="" class="control-label">please select a payment option</option>
+                    @foreach (string payment in ViewBag.PaymentOptions)
+                    {
+                        <option value="@payment">@payment</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group" id="PrivateGuestAdditionalInfoTextBox">
+                <label asp-for="PrivateGuestViewModel.AdditionalInfo" class="control-label boldform"></label>
+                <input asp-for="PrivateGuestViewModel.AdditionalInfo" class="form-control" />
+                <span asp-validation-for="PrivateGuestViewModel.AdditionalInfo" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="EventId" />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row" id="LegalPersonDivId">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label boldform">Guest type</label>
+                <select asp-for="GuestType" class="form-control" id="LegalPersonTypeSelectId">
+                    <option value="" class="">please select a guest type</option>
+                    @foreach (string type in @ViewBag.GuestTypes)
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group" id="LegalPersonNameTextBox">
+                <label asp-for="LegalPersonViewModel.Name" class="control-label boldform"></label>
+                <input asp-for="LegalPersonViewModel.Name" class="form-control" />
+                <span asp-validation-for="LegalPersonViewModel.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="LegalPersonRegistryCodeTextBox">
+                <label asp-for="LegalPersonViewModel.RegistryCode" class="control-label boldform"></label>
+                <input asp-for="LegalPersonViewModel.RegistryCode" class="form-control" min="0" step="any" type="number" />
+                <span asp-validation-for="LegalPersonViewModel.RegistryCode" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="LegalPersonRegistryNumberOfGuestsTextBox">
+                <label asp-for="LegalPersonViewModel.NumberOfGuests" class="control-label boldform"></label>
+                <input asp-for="LegalPersonViewModel.NumberOfGuests" class="form-control" min="1" step="any" type="number" />
+                <span asp-validation-for="LegalPersonViewModel.NumberOfGuests" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="LegalPersonPaymentOptionTextBox">
+                <label asp-for="LegalPersonViewModel.PaymentOption" class="control-label boldform"></label>
+                <select class="form-control">
+                    <option value="" class="control-label">please select a payment option</option>
+                    @foreach (string payment in ViewBag.PaymentOptions)
+                    {
+                        <option value="@payment">@payment</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group" id="PaymentOptionAdditionalInfoTextBox">
+                <label asp-for="LegalPersonViewModel.AdditionalInfo" class="control-label boldform"></label>
+                <input asp-for="LegalPersonViewModel.AdditionalInfo" class="form-control" />
+                <span asp-validation-for="LegalPersonViewModel.AdditionalInfo" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="EventId" />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/js/renderGuestTypeOptions.js")"></script>
+}

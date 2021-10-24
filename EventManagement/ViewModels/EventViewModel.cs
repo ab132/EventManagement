@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventManagement.Models
+namespace EventManagement.ViewModels
 {
-    public class Event
+    public class EventViewModel
     {
         public int Id { get; set; }
 
@@ -28,10 +28,7 @@ namespace EventManagement.Models
         [DisplayName("Number of guests")]
         public int? NumberOfGuests { get; set; }
 
-        [StringLength(1000, ErrorMessage = "Additional Info can be max 1000 characters.")]
         [DisplayName("Additional info")]
         public string AdditionalInfo { get; set; }
-        public IEnumerable<PrivateGuest> PrivateGuests { get; set; }
-        public IEnumerable<LegalPerson> LegalPersons { get; set; }
     }
 }

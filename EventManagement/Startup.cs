@@ -27,7 +27,7 @@ namespace EventManagement
         {
             services.AddControllersWithViews();
             services.AddDbContext<EventModelContext>(
-                Options => Options.UseSqlServer(Configuration.GetConnectionString("EventModelContext")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("EventModelContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

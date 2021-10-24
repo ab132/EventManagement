@@ -16,7 +16,7 @@ namespace EventManagement.Migrations
                     EventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Venue = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumberOfGuests = table.Column<int>(type: "int", nullable: false),
+                    NumberOfGuests = table.Column<int>(type: "int", nullable: true),
                     AdditionalInfo = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
@@ -35,7 +35,7 @@ namespace EventManagement.Migrations
                     NumberOfGuests = table.Column<int>(type: "int", nullable: false),
                     PaymentOption = table.Column<int>(type: "int", nullable: false),
                     AdditionalInfo = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: true),
-                    EventId = table.Column<int>(type: "int", nullable: false)
+                    EventId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,7 @@ namespace EventManagement.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,10 +56,10 @@ namespace EventManagement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PersonalIdentificationCode = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PersonalIdentificationCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PaymentOption = table.Column<int>(type: "int", nullable: false),
                     AdditionalInfo = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
-                    EventId = table.Column<int>(type: "int", nullable: false)
+                    EventId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,7 +69,18 @@ namespace EventManagement.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Events",
+                columns: new[] { "Id", "AdditionalInfo", "Date", "EventName", "NumberOfGuests", "Venue" },
+                values: new object[,]
+                {
+                    { 1, "Additional info 1", new DateTime(2021, 10, 26, 12, 1, 6, 133, DateTimeKind.Local).AddTicks(8682), "Event1", 0, "Venue1" },
+                    { 2, "Additional info 2", new DateTime(2021, 10, 29, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7203), "Event2", 0, "Venue2" },
+                    { 3, "Additional info 3", new DateTime(2021, 10, 31, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7280), "Event3", 0, "Venue3" },
+                    { 4, "Additional info 4", new DateTime(2021, 11, 3, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7287), "Event4", 0, "Venue4" }
                 });
 
             migrationBuilder.CreateIndex(

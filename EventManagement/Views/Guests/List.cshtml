@@ -1,0 +1,62 @@
+﻿@model EventManagement.ViewModels.JoinTable
+
+@{
+    ViewBag.Title = "List";
+}
+
+<div>
+    <div>
+        <h5 class="text-uppercase p-2 text-center">List of private guests</h5>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark text-white">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => Model.PrivateGuests.FirstOrDefault().FirstName)</th>
+                    <th>@Html.DisplayNameFor(m => Model.PrivateGuests.FirstOrDefault().LastName)</th>
+                    <th>@Html.DisplayNameFor(m => Model.PrivateGuests.FirstOrDefault().PersonalIdentificationCode)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var privateGuest in Model.PrivateGuests)
+                {
+                    <tr>
+                        <td>@privateGuest.FirstName</td>
+                        <td>@privateGuest.LastName</td>
+                        <td>@privateGuest.PersonalIdentificationCode</td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@privateGuest.Id" asp-route-guesttype="privateguest" asp-route-eventid="@Model.EventId">Delete</a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h5 class="text-uppercase p-2 text-center">List of legal persons</h5>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark text-white">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => Model.LegalPersons.FirstOrDefault().Name)</th>
+                    <th>@Html.DisplayNameFor(m => Model.LegalPersons.FirstOrDefault().RegistryCode)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var legalPerson in Model.LegalPersons)
+                {
+                    <tr>
+                        <td>@legalPerson.Name</td>
+                        <td>@legalPerson.RegistryCode</td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@legalPerson.Id" asp-route-guesttype="legalperson" asp-route-eventid="@Model.EventId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <a asp-action="Index" asp-controller="Events">Back to List</a>
+    </div>
+</div>  

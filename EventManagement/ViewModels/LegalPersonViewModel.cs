@@ -1,13 +1,14 @@
-﻿using System;
+﻿using EventManagement.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventManagement.Models
+namespace EventManagement.ViewModels
 {
-    public class LegalPerson
+    public class LegalPersonViewModel
     {
         public int Id { get; set; }
 
@@ -31,6 +32,5 @@ namespace EventManagement.Models
         [DisplayName("Additional info")]
         public string AdditionalInfo { get; set; }
         public int? EventId { get; set; }
-        public Event Event { get; set; }
     }
 }

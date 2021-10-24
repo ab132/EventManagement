@@ -39,7 +39,6 @@ namespace EventManagement.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("NumberOfGuests")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Venue")
@@ -49,6 +48,44 @@ namespace EventManagement.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Events");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AdditionalInfo = "Additional info 1",
+                            Date = new DateTime(2021, 10, 26, 12, 1, 6, 133, DateTimeKind.Local).AddTicks(8682),
+                            EventName = "Event1",
+                            NumberOfGuests = 0,
+                            Venue = "Venue1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AdditionalInfo = "Additional info 2",
+                            Date = new DateTime(2021, 10, 29, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7203),
+                            EventName = "Event2",
+                            NumberOfGuests = 0,
+                            Venue = "Venue2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AdditionalInfo = "Additional info 3",
+                            Date = new DateTime(2021, 10, 31, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7280),
+                            EventName = "Event3",
+                            NumberOfGuests = 0,
+                            Venue = "Venue3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AdditionalInfo = "Additional info 4",
+                            Date = new DateTime(2021, 11, 3, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7287),
+                            EventName = "Event4",
+                            NumberOfGuests = 0,
+                            Venue = "Venue4"
+                        });
                 });
 
             modelBuilder.Entity("EventManagement.Models.LegalPerson", b =>
@@ -62,7 +99,7 @@ namespace EventManagement.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EventId")
+                    b.Property<int?>("EventId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -98,7 +135,7 @@ namespace EventManagement.Migrations
                         .HasMaxLength(1500)
                         .HasColumnType("nvarchar(1500)");
 
-                    b.Property<int>("EventId")
+                    b.Property<int?>("EventId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -112,8 +149,9 @@ namespace EventManagement.Migrations
                     b.Property<int>("PaymentOption")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PersonalIdentificationCode")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("PersonalIdentificationCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -126,9 +164,7 @@ namespace EventManagement.Migrations
                 {
                     b.HasOne("EventManagement.Models.Event", "Event")
                         .WithMany("LegalPersons")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Event");
                 });
@@ -137,9 +173,7 @@ namespace EventManagement.Migrations
                 {
                     b.HasOne("EventManagement.Models.Event", "Event")
                         .WithMany("PrivateGuests")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Event");
                 });
