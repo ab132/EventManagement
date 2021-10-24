@@ -52,7 +52,8 @@
                 <input asp-for="PrivateGuestViewModel.AdditionalInfo" class="form-control" />
                 <span asp-validation-for="PrivateGuestViewModel.AdditionalInfo" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="EventId" />
+            <input type="hidden" asp-for="@Model.EventId" />
+            @*<input type="hidden" asp-for="EventId" />*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

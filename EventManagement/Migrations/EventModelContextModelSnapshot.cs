@@ -54,7 +54,7 @@ namespace EventManagement.Migrations
                         {
                             Id = 1,
                             AdditionalInfo = "Additional info 1",
-                            Date = new DateTime(2021, 10, 26, 12, 1, 6, 133, DateTimeKind.Local).AddTicks(8682),
+                            Date = new DateTime(2021, 10, 26, 21, 56, 10, 625, DateTimeKind.Local).AddTicks(3930),
                             EventName = "Event1",
                             NumberOfGuests = 0,
                             Venue = "Venue1"
@@ -63,7 +63,7 @@ namespace EventManagement.Migrations
                         {
                             Id = 2,
                             AdditionalInfo = "Additional info 2",
-                            Date = new DateTime(2021, 10, 29, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7203),
+                            Date = new DateTime(2021, 10, 29, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4362),
                             EventName = "Event2",
                             NumberOfGuests = 0,
                             Venue = "Venue2"
@@ -72,7 +72,7 @@ namespace EventManagement.Migrations
                         {
                             Id = 3,
                             AdditionalInfo = "Additional info 3",
-                            Date = new DateTime(2021, 10, 31, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7280),
+                            Date = new DateTime(2021, 10, 31, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4436),
                             EventName = "Event3",
                             NumberOfGuests = 0,
                             Venue = "Venue3"
@@ -81,7 +81,7 @@ namespace EventManagement.Migrations
                         {
                             Id = 4,
                             AdditionalInfo = "Additional info 4",
-                            Date = new DateTime(2021, 11, 3, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7287),
+                            Date = new DateTime(2021, 11, 3, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4444),
                             EventName = "Event4",
                             NumberOfGuests = 0,
                             Venue = "Venue4"
@@ -113,9 +113,9 @@ namespace EventManagement.Migrations
                     b.Property<int>("PaymentOption")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RegistryCode")
+                    b.Property<string>("RegistryCode")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -164,7 +164,8 @@ namespace EventManagement.Migrations
                 {
                     b.HasOne("EventManagement.Models.Event", "Event")
                         .WithMany("LegalPersons")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Event");
                 });
@@ -173,7 +174,8 @@ namespace EventManagement.Migrations
                 {
                     b.HasOne("EventManagement.Models.Event", "Event")
                         .WithMany("PrivateGuests")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Event");
                 });

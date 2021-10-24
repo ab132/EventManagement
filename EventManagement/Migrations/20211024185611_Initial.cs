@@ -31,7 +31,7 @@ namespace EventManagement.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegistryCode = table.Column<int>(type: "int", nullable: false),
+                    RegistryCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfGuests = table.Column<int>(type: "int", nullable: false),
                     PaymentOption = table.Column<int>(type: "int", nullable: false),
                     AdditionalInfo = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: true),
@@ -45,7 +45,7 @@ namespace EventManagement.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,7 +69,7 @@ namespace EventManagement.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -77,10 +77,10 @@ namespace EventManagement.Migrations
                 columns: new[] { "Id", "AdditionalInfo", "Date", "EventName", "NumberOfGuests", "Venue" },
                 values: new object[,]
                 {
-                    { 1, "Additional info 1", new DateTime(2021, 10, 26, 12, 1, 6, 133, DateTimeKind.Local).AddTicks(8682), "Event1", 0, "Venue1" },
-                    { 2, "Additional info 2", new DateTime(2021, 10, 29, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7203), "Event2", 0, "Venue2" },
-                    { 3, "Additional info 3", new DateTime(2021, 10, 31, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7280), "Event3", 0, "Venue3" },
-                    { 4, "Additional info 4", new DateTime(2021, 11, 3, 12, 1, 6, 141, DateTimeKind.Local).AddTicks(7287), "Event4", 0, "Venue4" }
+                    { 1, "Additional info 1", new DateTime(2021, 10, 26, 21, 56, 10, 625, DateTimeKind.Local).AddTicks(3930), "Event1", 0, "Venue1" },
+                    { 2, "Additional info 2", new DateTime(2021, 10, 29, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4362), "Event2", 0, "Venue2" },
+                    { 3, "Additional info 3", new DateTime(2021, 10, 31, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4436), "Event3", 0, "Venue3" },
+                    { 4, "Additional info 4", new DateTime(2021, 11, 3, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4444), "Event4", 0, "Venue4" }
                 });
 
             migrationBuilder.CreateIndex(

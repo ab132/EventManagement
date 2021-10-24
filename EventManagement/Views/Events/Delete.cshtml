@@ -1,0 +1,17 @@
+﻿@model EventManagement.ViewModels.DeleteEventViewModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h2>Are you sure you want to delete the event?</h2>
+
+<form asp-action="Delete" method="post">
+    <div style="display:inline-block;">
+        <input type="submit" value="Yes" asp-route-id="@Model.Id" class="btn btn-danger" />
+    </div>
+    <div style="display:inline-block;">
+        <a asp-action="Index" asp-controller="Events" class="btn btn-outline-primary">Cancel</a>
+    </div>
+</form>

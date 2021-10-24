@@ -1,4 +1,5 @@
-﻿using EventManagement.Models;
+﻿using EventManagement.Core;
+using EventManagement.Models;
 using EventManagement.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,10 @@ namespace EventManagement.Controllers
 {
     public class GuestsController : Controller
     {
-        private readonly EventModelContext _context;
-        public GuestsController(EventModelContext context)
+        private readonly IUnitOfWork _unitOfWork;
+        public GuestsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: GuestsController
@@ -33,8 +34,9 @@ namespace EventManagement.Controllers
         public IActionResult List(int id)
         {
             JoinTable joinTable = new JoinTable();
-            joinTable.PrivateGuests = _context.PrivateGuests.Where(p => p.EventId == id).ToList();
-            joinTable.LegalPersons = _context.LegalPersons.Where(p => p.EventId == id).ToList();
+            
+            joinTable.PrivateGuests = _unitOfWork.PrivateGuests.GetPrivateGuests(id);
+            joinTable.LegalPersons = _unitOfWork.LegalPersons.GetLegalPersons(id);
 
             joinTable.EventId = id;
 
@@ -76,7 +78,7 @@ namespace EventManagement.Controllers
         // POST: GuestsController/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(GuestViewModel viewModel)
+        public IActionResult Add(GuestViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -87,78 +89,44 @@ namespace EventManagement.Controllers
 
             if (viewModel.PrivateGuestViewModel != null)
             {
-                var privateGuestInDb = _context.PrivateGuests.Where(p => p.PersonalIdentificationCode == viewModel.PrivateGuestViewModel.PersonalIdentificationCode && p.EventId == viewModel.EventId).FirstOrDefault();
-                if (privateGuestInDb == null)
-                {
-                    var privateGuest = new PrivateGuest
-                    {
-                        FirstName = viewModel.PrivateGuestViewModel.FirstName,
-                        LastName = viewModel.PrivateGuestViewModel.LastName,
-                        PersonalIdentificationCode = viewModel.PrivateGuestViewModel.PersonalIdentificationCode,
-                        PaymentOption = viewModel.PrivateGuestViewModel.PaymentOption,
-                        AdditionalInfo = viewModel.PrivateGuestViewModel.AdditionalInfo,
-                        EventId = viewModel.EventId
-                    };
+                PrivateGuest newPrivateGuest = new PrivateGuest();
 
-                    var eventInDb = _context.Events.Where(e => e.Id == viewModel.EventId).FirstOrDefault();
-                    if (eventInDb != null)
-                    {
-                        eventInDb.NumberOfGuests += 1;
+                newPrivateGuest.FirstName = viewModel.PrivateGuestViewModel.FirstName;
+                newPrivateGuest.LastName = viewModel.PrivateGuestViewModel.LastName;
+                newPrivateGuest.PersonalIdentificationCode = viewModel.PrivateGuestViewModel.PersonalIdentificationCode;
+                newPrivateGuest.PaymentOption = viewModel.PrivateGuestViewModel.PaymentOption;
+                newPrivateGuest.AdditionalInfo = viewModel.PrivateGuestViewModel.AdditionalInfo;
+                newPrivateGuest.EventId = viewModel.EventId;
 
-                        _context.Events.Update(eventInDb);
-                        _context.PrivateGuests.Add(privateGuest);
+                _unitOfWork.PrivateGuests.Add(newPrivateGuest);
 
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Index", "Events");
-                    }
-                    else 
-                    {
-                        return NotFound();
-                    }
-                }
-                else
-                {
-                    GetGuestAndPaymentTypes();
-                    return View(viewModel);
-                }
+                var eventInDb = _unitOfWork.Events.GetEvent(viewModel.EventId);
+                eventInDb.NumberOfGuests += 1;
+                _unitOfWork.Events.Update(eventInDb);
+
+                _unitOfWork.Complete();
+                return RedirectToAction("Index", "Events");
             }
 
             if (viewModel.LegalPersonViewModel != null)
             {
-                var legalPersonInDb = _context.LegalPersons.Where(p => p.RegistryCode == viewModel.LegalPersonViewModel.RegistryCode && p.EventId == viewModel.EventId).FirstOrDefault();
-                if (legalPersonInDb == null)
-                {
-                    var legalPerson = new LegalPerson
-                    {
-                        Name = viewModel.LegalPersonViewModel.Name,
-                        RegistryCode = viewModel.LegalPersonViewModel.RegistryCode,
-                        NumberOfGuests = viewModel.LegalPersonViewModel.NumberOfGuests,
-                        PaymentOption = viewModel.LegalPersonViewModel.PaymentOption,
-                        AdditionalInfo = viewModel.LegalPersonViewModel.AdditionalInfo,
-                        EventId = viewModel.EventId
-                    };
+                LegalPerson newLegalPerson = new LegalPerson();
 
-                    var eventInDb = _context.Events.Where(e => e.Id == viewModel.EventId).FirstOrDefault();
-                    if (eventInDb != null)
-                    {
-                        eventInDb.NumberOfGuests += viewModel.LegalPersonViewModel.NumberOfGuests;
+                newLegalPerson.Name = viewModel.LegalPersonViewModel.Name;
+                newLegalPerson.RegistryCode = viewModel.LegalPersonViewModel.RegistryCode;
+                newLegalPerson.NumberOfGuests = viewModel.LegalPersonViewModel.NumberOfGuests;
+                newLegalPerson.PaymentOption = viewModel.LegalPersonViewModel.PaymentOption;
+                newLegalPerson.AdditionalInfo = viewModel.LegalPersonViewModel.AdditionalInfo;
+                newLegalPerson.EventId = viewModel.EventId;
 
-                        _context.Events.Update(eventInDb);
-                        _context.LegalPersons.Add(legalPerson);
+                _unitOfWork.LegalPersons.Add(newLegalPerson);
 
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Index", "Events");
-                    }
-                    else 
-                    {
-                        return NotFound();
-                    }
-                }
-                else
-                {
-                    GetGuestAndPaymentTypes();
-                    return View(viewModel);
-                }
+                var eventInDb = _unitOfWork.Events.GetEvent(viewModel.EventId);
+                eventInDb.NumberOfGuests += viewModel.LegalPersonViewModel.NumberOfGuests;
+                _unitOfWork.Events.Update(eventInDb);
+
+                _unitOfWork.Complete();
+                return RedirectToAction("Index", "Events");
             }
 
             return RedirectToAction("Index", "Events");
@@ -215,46 +183,46 @@ namespace EventManagement.Controllers
         // POST: GuestsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id, string guesttype, int eventid)
+        public IActionResult Delete(int id, string guesttype, int eventid)
         {
             if (guesttype == "privateguest")
-            { 
-                var privateGuest = _context.PrivateGuests.Find(id);
+            {
+                var privateGuest = _unitOfWork.PrivateGuests.Find(id);
                 if (privateGuest == null)
                 {
                     return NotFound();
                 }
 
                 privateGuest.EventId = null;
-                _context.PrivateGuests.Update(privateGuest);
+                _unitOfWork.PrivateGuests.Update(privateGuest);
 
-                var eventInDb = _context.Events.Find(eventid);
+                var eventInDb = _unitOfWork.Events.Find(eventid);
                 eventInDb.NumberOfGuests -= 1;
-                _context.Events.Update(eventInDb);
+                _unitOfWork.Events.Update(eventInDb);
 
-                await _context.SaveChangesAsync();
+                _unitOfWork.Complete();
 
                 return RedirectToAction("Index", "Events");
             }
 
             if (guesttype == "legalperson")
             {
-                var legalPerson = _context.LegalPersons.Find(id);
+                var legalPerson = _unitOfWork.LegalPersons.Find(id);
                 if (legalPerson == null)
                 {
                     return NotFound();
                 }
 
                 legalPerson.EventId = null;
-                _context.LegalPersons.Update(legalPerson);
+                _unitOfWork.LegalPersons.Update(legalPerson);
 
-                var eventInDb = _context.Events.Find(eventid);
+                var eventInDb = _unitOfWork.Events.Find(eventid);
                 var count = legalPerson.NumberOfGuests;
 
                 eventInDb.NumberOfGuests -= count;
-                _context.Events.Update(eventInDb);
+                _unitOfWork.Events.Update(eventInDb);
 
-                await _context.SaveChangesAsync();
+                _unitOfWork.Complete();
 
                 return RedirectToAction("Index", "Events");
             }

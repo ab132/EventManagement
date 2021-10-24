@@ -9,7 +9,6 @@ namespace EventManagement.ViewModels
 {
     public class GuestViewModel
     {
-        public int Id { get; set; }
         public int EventId { get; set; }
         public PrivateGuestViewModel PrivateGuestViewModel { get; set; }
         public LegalPersonViewModel LegalPersonViewModel { get; set; }

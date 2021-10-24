@@ -1,4 +1,6 @@
+using EventManagement.Core;
 using EventManagement.Models;
+using EventManagement.Persistance;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +29,10 @@ namespace EventManagement
         {
             services.AddControllersWithViews();
             services.AddDbContext<EventModelContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("EventModelContext")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("EventModelContext")), ServiceLifetime.Scoped);
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

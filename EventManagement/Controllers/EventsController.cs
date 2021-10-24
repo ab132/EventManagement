@@ -1,4 +1,5 @@
-﻿using EventManagement.Models;
+﻿using EventManagement.Core;
+using EventManagement.Models;
 using EventManagement.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,15 +13,15 @@ namespace EventManagement.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly EventModelContext _context;
-        public EventsController(EventModelContext context)
+        private readonly IUnitOfWork _unitOfWork;
+        public EventsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
         // GET: EventsController
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var events = await _context.Events.ToListAsync();
+            var events = _unitOfWork.Events.GetEvents();
 
             return View(events);
         }
@@ -42,7 +43,7 @@ namespace EventManagement.Controllers
         // POST: EventsController/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(EventViewModel viewModel)
+        public IActionResult Create(EventViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -58,8 +59,8 @@ namespace EventManagement.Controllers
                 NumberOfGuests = 0
             };
 
-            _context.Events.Add(eventModel);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Events.Add(eventModel);
+            _unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }
@@ -86,24 +87,27 @@ namespace EventManagement.Controllers
         }
 
         // GET: EventsController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(DeleteEventViewModel viewModel)
         {
-            return View();
+            return View(viewModel);
         }
 
         // POST: EventsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+            var eventInDb = _unitOfWork.Events.Find(id);
+
+            if (eventInDb != null)
+            { 
+                _unitOfWork.Events.Delete(eventInDb);
+                _unitOfWork.Complete();
+
+                return RedirectToAction("Index", "Events");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View();
         }
     }
 }

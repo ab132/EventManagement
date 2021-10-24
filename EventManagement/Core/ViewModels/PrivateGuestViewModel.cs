@@ -31,6 +31,6 @@ namespace EventManagement.ViewModels
         [StringLength(1500, ErrorMessage = "Additional Info can be max 1500 characters.")]
         [DisplayName("Additional info")]
         public string AdditionalInfo { get; set; }
-        public int? EventId { get; set; }
+        public int EventId { get; set; }
     }
 }

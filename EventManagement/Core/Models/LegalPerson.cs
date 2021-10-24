@@ -1,14 +1,13 @@
-﻿using EventManagement.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventManagement.ViewModels
+namespace EventManagement.Models
 {
-    public class LegalPersonViewModel
+    public class LegalPerson
     {
         public int Id { get; set; }
 
@@ -18,7 +17,7 @@ namespace EventManagement.ViewModels
 
         [Required(ErrorMessage = "Please enter the registry code")]
         [DisplayName("Registry code")]
-        public int? RegistryCode { get; set; }
+        public string RegistryCode { get; set; }
 
         [Required(ErrorMessage = "Please enter the number of guests")]
         [DisplayName("Number of guests")]
@@ -32,5 +31,6 @@ namespace EventManagement.ViewModels
         [DisplayName("Additional info")]
         public string AdditionalInfo { get; set; }
         public int? EventId { get; set; }
+        public Event Event { get; set; }
     }
 }
