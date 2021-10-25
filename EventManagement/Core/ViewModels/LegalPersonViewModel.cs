@@ -1,4 +1,5 @@
-﻿using EventManagement.Models;
+﻿using EventManagement.Core.ViewModels;
+using EventManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,11 +27,12 @@ namespace EventManagement.ViewModels
 
         [Required(ErrorMessage = "Please choose a payment option")]
         [DisplayName("Payment option")]
-        public PaymentOption PaymentOption { get; set; }
+        public PaymentOption? PaymentOption { get; set; }
 
         [StringLength(5000, ErrorMessage = "Additional Info can be max 5000 characters.")]
         [DisplayName("Additional info")]
         public string AdditionalInfo { get; set; }
         public int? EventId { get; set; }
+        public EventViewModel EventViewModel { get; set; } = new EventViewModel();
     }
 }

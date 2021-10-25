@@ -1,0 +1,54 @@
+﻿@model EventManagement.ViewModels.LegalPersonViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>LegalPerson</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RegistryCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RegistryCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PaymentOption)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PaymentOption)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AdditionalInfo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AdditionalInfo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EventId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EventId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EventViewModel.EventName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EventViewModel.EventName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditLegalPerson" asp-route-legalPersonId="@Model.Id">Edit</a> |
+    <a asp-action="Index" asp-controller="Events">Back to List</a>
+</div>

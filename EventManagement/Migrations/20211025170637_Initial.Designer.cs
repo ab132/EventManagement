@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventManagement.Migrations
 {
     [DbContext(typeof(EventModelContext))]
-    [Migration("20211024185611_Initial")]
+    [Migration("20211025170637_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,7 @@ namespace EventManagement.Migrations
                         {
                             Id = 1,
                             AdditionalInfo = "Additional info 1",
-                            Date = new DateTime(2021, 10, 26, 21, 56, 10, 625, DateTimeKind.Local).AddTicks(3930),
+                            Date = new DateTime(2021, 10, 27, 20, 6, 36, 830, DateTimeKind.Local).AddTicks(5391),
                             EventName = "Event1",
                             NumberOfGuests = 0,
                             Venue = "Venue1"
@@ -65,7 +65,7 @@ namespace EventManagement.Migrations
                         {
                             Id = 2,
                             AdditionalInfo = "Additional info 2",
-                            Date = new DateTime(2021, 10, 29, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4362),
+                            Date = new DateTime(2021, 10, 30, 20, 6, 36, 838, DateTimeKind.Local).AddTicks(6834),
                             EventName = "Event2",
                             NumberOfGuests = 0,
                             Venue = "Venue2"
@@ -74,7 +74,7 @@ namespace EventManagement.Migrations
                         {
                             Id = 3,
                             AdditionalInfo = "Additional info 3",
-                            Date = new DateTime(2021, 10, 31, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4436),
+                            Date = new DateTime(2021, 11, 1, 20, 6, 36, 838, DateTimeKind.Local).AddTicks(6915),
                             EventName = "Event3",
                             NumberOfGuests = 0,
                             Venue = "Venue3"
@@ -83,7 +83,7 @@ namespace EventManagement.Migrations
                         {
                             Id = 4,
                             AdditionalInfo = "Additional info 4",
-                            Date = new DateTime(2021, 11, 3, 21, 56, 10, 632, DateTimeKind.Local).AddTicks(4444),
+                            Date = new DateTime(2021, 11, 4, 20, 6, 36, 838, DateTimeKind.Local).AddTicks(6924),
                             EventName = "Event4",
                             NumberOfGuests = 0,
                             Venue = "Venue4"

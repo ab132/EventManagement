@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EventManagement.ViewModels;
 using EventManagement.Persistance;
+using EventManagement.Core.ViewModels;
 
 namespace EventManagement.Models
 {

@@ -26,19 +26,50 @@ namespace EventManagement.Controllers
         }
 
         // GET: GuestsController/Details/5
-        public IActionResult Details(int id)
+        public IActionResult PrivateGuestDetails(int privateGuestId)
         {
-            return View();
+            var privateGuestInDb = _unitOfWork.PrivateGuests.GetPrivateGuest(privateGuestId);
+
+            PrivateGuestViewModel privateGuestViewModel = new PrivateGuestViewModel();
+            privateGuestViewModel.Id = privateGuestInDb.Id;
+            privateGuestViewModel.FirstName = privateGuestInDb.FirstName;
+            privateGuestViewModel.LastName = privateGuestInDb.LastName;
+            privateGuestViewModel.PersonalIdentificationCode = privateGuestInDb.PersonalIdentificationCode;
+            privateGuestViewModel.PaymentOption = (PaymentOption)privateGuestInDb.PaymentOption;
+            privateGuestViewModel.AdditionalInfo = privateGuestInDb.AdditionalInfo;
+            privateGuestViewModel.EventId = privateGuestInDb.EventId;
+            privateGuestViewModel.EventViewModel.EventName = privateGuestInDb.Event.EventName;
+
+            return View(privateGuestViewModel);
         }
 
-        public IActionResult List(int id)
+        // GET: GuestsController/Details/5
+        public IActionResult LegalPersonDetails(int legalPersonId)
+        {
+            var legalPersonInDb = _unitOfWork.LegalPersons.GetLegalPerson(legalPersonId);
+
+            LegalPersonViewModel legalPersonViewModel = new LegalPersonViewModel();
+            legalPersonViewModel.Id = legalPersonInDb.Id;
+            legalPersonViewModel.Name = legalPersonInDb.Name;
+            legalPersonViewModel.RegistryCode = legalPersonInDb.RegistryCode;
+            legalPersonViewModel.NumberOfGuests = legalPersonInDb.NumberOfGuests;
+            legalPersonViewModel.PaymentOption = (PaymentOption)legalPersonInDb.PaymentOption;
+            legalPersonViewModel.EventId = legalPersonInDb.EventId;
+            legalPersonViewModel.EventViewModel.EventName = legalPersonInDb.Event.EventName;
+
+
+            return View(legalPersonViewModel);
+
+        }
+
+        public IActionResult List(int eventId)
         {
             JoinTable joinTable = new JoinTable();
-            
-            joinTable.PrivateGuests = _unitOfWork.PrivateGuests.GetPrivateGuests(id);
-            joinTable.LegalPersons = _unitOfWork.LegalPersons.GetLegalPersons(id);
 
-            joinTable.EventId = id;
+            joinTable.PrivateGuests = _unitOfWork.PrivateGuests.GetPrivateGuests(eventId);
+            joinTable.LegalPersons = _unitOfWork.LegalPersons.GetLegalPersons(eventId);
+
+            joinTable.EventId = eventId;
 
             return View(joinTable);
         }
@@ -94,7 +125,7 @@ namespace EventManagement.Controllers
                 newPrivateGuest.FirstName = viewModel.PrivateGuestViewModel.FirstName;
                 newPrivateGuest.LastName = viewModel.PrivateGuestViewModel.LastName;
                 newPrivateGuest.PersonalIdentificationCode = viewModel.PrivateGuestViewModel.PersonalIdentificationCode;
-                newPrivateGuest.PaymentOption = viewModel.PrivateGuestViewModel.PaymentOption;
+                newPrivateGuest.PaymentOption = (PaymentOption)viewModel.PrivateGuestViewModel.PaymentOption;
                 newPrivateGuest.AdditionalInfo = viewModel.PrivateGuestViewModel.AdditionalInfo;
                 newPrivateGuest.EventId = viewModel.EventId;
 
@@ -115,7 +146,7 @@ namespace EventManagement.Controllers
                 newLegalPerson.Name = viewModel.LegalPersonViewModel.Name;
                 newLegalPerson.RegistryCode = viewModel.LegalPersonViewModel.RegistryCode;
                 newLegalPerson.NumberOfGuests = viewModel.LegalPersonViewModel.NumberOfGuests;
-                newLegalPerson.PaymentOption = viewModel.LegalPersonViewModel.PaymentOption;
+                newLegalPerson.PaymentOption = (PaymentOption)viewModel.LegalPersonViewModel.PaymentOption;
                 newLegalPerson.AdditionalInfo = viewModel.LegalPersonViewModel.AdditionalInfo;
                 newLegalPerson.EventId = viewModel.EventId;
 
@@ -154,24 +185,116 @@ namespace EventManagement.Controllers
         }
 
         // GET: GuestsController/Edit/5
-        public IActionResult Edit(int id)
+        public IActionResult EditPrivateGuest(int privateGuestId)
         {
-            return View();
+            List<string> paymentOptionsList = new List<string>();
+
+            var cashPaymentString = nameof(PaymentOption.CashPayment);
+            var creditCardPaymentString = nameof(PaymentOption.CreditCardPayment);
+
+            paymentOptionsList.Add(cashPaymentString);
+            paymentOptionsList.Add(creditCardPaymentString);
+
+            ViewBag.PaymentOptions = paymentOptionsList;
+
+            var privateGuest = _unitOfWork.PrivateGuests.GetPrivateGuest(privateGuestId);
+
+            PrivateGuestViewModel viewModel = new PrivateGuestViewModel();
+
+            viewModel.Id = privateGuest.Id;
+            viewModel.FirstName = privateGuest.FirstName;
+            viewModel.LastName = privateGuest.LastName;
+            viewModel.PersonalIdentificationCode = privateGuest.PersonalIdentificationCode;
+            viewModel.PaymentOption = (PaymentOption)privateGuest.PaymentOption;
+            viewModel.AdditionalInfo = privateGuest.AdditionalInfo;
+            viewModel.EventId = privateGuest.EventId;
+
+            return View(viewModel);
+        }
+
+        // GET: GuestsController/Edit/5
+        public IActionResult EditLegalPerson(int legalPersonId)
+        {
+            List<PaymentOption> paymentOptionsList = new List<PaymentOption>();
+
+            var cashPaymentString = PaymentOption.CashPayment;
+            var creditCardPaymentString = PaymentOption.CreditCardPayment;
+
+            paymentOptionsList.Add(cashPaymentString);
+            paymentOptionsList.Add(creditCardPaymentString);
+
+            ViewBag.PaymentOptions = paymentOptionsList;
+
+            var legalPerson = _unitOfWork.LegalPersons.GetLegalPerson(legalPersonId);
+
+            LegalPersonViewModel viewModel = new LegalPersonViewModel();
+
+            viewModel.Id = legalPerson.Id;
+            viewModel.Name = legalPerson.Name;
+            viewModel.RegistryCode = legalPerson.RegistryCode;
+            viewModel.NumberOfGuests = legalPerson.NumberOfGuests;
+            viewModel.PaymentOption = (PaymentOption)legalPerson.PaymentOption;
+            viewModel.AdditionalInfo = legalPerson.AdditionalInfo;
+            viewModel.EventId = legalPerson.EventId;
+
+            return View(viewModel);
         }
 
         // POST: GuestsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
+        public IActionResult EditPrivateGuest(PrivateGuestViewModel privateGuestViewModel)
         {
-            try
+            var privateGuest = _unitOfWork.PrivateGuests.GetPrivateGuest(privateGuestViewModel.Id);
+
+            if (privateGuest == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return View(privateGuestViewModel);
             }
-            catch
+
+            privateGuest.Id = privateGuestViewModel.Id;
+            privateGuest.FirstName = privateGuestViewModel.FirstName;
+            privateGuest.LastName = privateGuestViewModel.LastName;
+            privateGuest.PersonalIdentificationCode = privateGuestViewModel.PersonalIdentificationCode;
+            privateGuest.PaymentOption = (PaymentOption)privateGuestViewModel.PaymentOption;
+            privateGuest.AdditionalInfo = privateGuestViewModel.AdditionalInfo;
+            privateGuest.EventId = privateGuestViewModel.EventId;
+
+            _unitOfWork.PrivateGuests.Update(privateGuest);
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index", "Events");
+        }
+
+        // POST: GuestsController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditLegalPerson(LegalPersonViewModel legalPersonViewModel)
+        {
+            var legalPerson = _unitOfWork.LegalPersons.GetLegalPerson(legalPersonViewModel.Id);
+
+            if (legalPerson == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
             {
-                return View();
+                return View(legalPersonViewModel);
             }
+            legalPerson.Id = legalPersonViewModel.Id;
+            legalPerson.Name = legalPersonViewModel.Name;
+            legalPerson.RegistryCode = legalPersonViewModel.RegistryCode;
+            legalPerson.NumberOfGuests = legalPersonViewModel.NumberOfGuests;
+            legalPerson.PaymentOption = (PaymentOption)legalPersonViewModel.PaymentOption;
+            legalPerson.AdditionalInfo = legalPersonViewModel.AdditionalInfo;
+            legalPerson.EventId = legalPersonViewModel.EventId;
+
+            _unitOfWork.LegalPersons.Update(legalPerson);
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index", "Events");
         }
 
         // GET: GuestsController/Delete/5

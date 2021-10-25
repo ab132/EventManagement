@@ -6,22 +6,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventManagement.ViewModels
+namespace EventManagement.Core.ViewModels
 {
     public class EventViewModel
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter the event name")]
         [DisplayName("Name of event")]
         public string EventName { get; set; }
 
-        [Required(ErrorMessage = "Please enter the event date")]
-        [FutureDate(ErrorMessage = "Date should be in the future.")]
         [DisplayName("Date of event")]
         public DateTime? Date { get; set; }
 
-        [Required(ErrorMessage = "Please enter the venue name")]
         [DisplayName("Venue")]
         public string Venue { get; set; }
 

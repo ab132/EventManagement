@@ -34,7 +34,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.ActionLink(item.EventName, "List", "Guests", new { id = item.Id }, null)
+                @Html.ActionLink(item.EventName, "List", "Guests", new { eventId = item.Id }, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)

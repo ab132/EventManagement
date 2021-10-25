@@ -39,7 +39,7 @@
             </div>
             <div class="form-group" id="PrivateGuestPaymentOptionTextBox">
                 <label asp-for="PrivateGuestViewModel.PaymentOption" class="control-label boldform"></label>
-                <select class="form-control">
+                <select asp-for="PrivateGuestViewModel.PaymentOption" class="form-control">
                     <option value="" class="control-label">please select a payment option</option>
                     @foreach (string payment in ViewBag.PaymentOptions)
                     {
@@ -53,7 +53,6 @@
                 <span asp-validation-for="PrivateGuestViewModel.AdditionalInfo" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="@Model.EventId" />
-            @*<input type="hidden" asp-for="EventId" />*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -92,7 +91,7 @@
             </div>
             <div class="form-group" id="LegalPersonPaymentOptionTextBox">
                 <label asp-for="LegalPersonViewModel.PaymentOption" class="control-label boldform"></label>
-                <select class="form-control">
+                <select asp-for="LegalPersonViewModel.PaymentOption" class="form-control">
                     <option value="" class="control-label">please select a payment option</option>
                     @foreach (string payment in ViewBag.PaymentOptions)
                     {
@@ -105,7 +104,7 @@
                 <input asp-for="LegalPersonViewModel.AdditionalInfo" class="form-control" />
                 <span asp-validation-for="LegalPersonViewModel.AdditionalInfo" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="EventId" />
+            <input type="hidden" asp-for="@Model.EventId" />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

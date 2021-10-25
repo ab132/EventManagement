@@ -20,6 +20,7 @@ namespace EventManagement.Persistance.Repositories
         public LegalPerson GetLegalPerson(int legalPersonId)
         {
             return _context.LegalPersons
+                    .Include("Event")
                     .SingleOrDefault(l => l.Id == legalPersonId);
         }
         public IEnumerable<LegalPerson> GetLegalPersons()

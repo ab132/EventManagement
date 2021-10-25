@@ -10,7 +10,8 @@ namespace EventManagement.ViewModels
     {
         public IEnumerable<PrivateGuest> PrivateGuests { get; set; } = new List<PrivateGuest>();
         public IEnumerable<LegalPerson> LegalPersons { get; set; } = new List<LegalPerson>();
-
+        public PrivateGuestViewModel PrivateGuestViewModel { get; set; }
+        public LegalPersonViewModel LegalPersonViewModel { get; set; }
         public int EventId { get; set; }
 
     }

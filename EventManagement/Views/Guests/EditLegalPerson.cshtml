@@ -1,0 +1,63 @@
+﻿@model EventManagement.ViewModels.LegalPersonViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>LegalPerson</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditLegalPerson">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegistryCode" class="control-label"></label>
+                <input asp-for="RegistryCode" class="form-control" />
+                <span asp-validation-for="RegistryCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfGuests" class="control-label"></label>
+                <input asp-for="NumberOfGuests" class="form-control" />
+                <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentOption" class="control-label boldform"></label>
+                <select asp-for="PaymentOption" class="form-control">
+                    <option value="" class="control-label">@Model.PaymentOption</option>
+                    @foreach (PaymentOption payment in ViewBag.PaymentOptions)
+                    {
+                        <option value="@payment">@payment.ToString()</option>
+                    }
+                </select>
+                <span asp-validation-for="PaymentOption" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalInfo" class="control-label"></label>
+                <input asp-for="AdditionalInfo" class="form-control" />
+                <span asp-validation-for="AdditionalInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EventId" class="control-label"></label>
+                <input asp-for="EventId" class="form-control" />
+                <span asp-validation-for="EventId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="@Model.Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Events">Back to List</a>
+</div>
+

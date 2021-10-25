@@ -19,14 +19,14 @@
             <tbody>
                 @foreach (var privateGuest in Model.PrivateGuests)
                 {
-                    <tr>
-                        <td>@privateGuest.FirstName</td>
-                        <td>@privateGuest.LastName</td>
-                        <td>@privateGuest.PersonalIdentificationCode</td>
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@privateGuest.Id" asp-route-guesttype="privateguest" asp-route-eventid="@Model.EventId">Delete</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@Html.ActionLink(privateGuest.FirstName, "PrivateGuestDetails", "Guests", new { privateGuestId = privateGuest.Id }, null)</td>
+                    <td>@privateGuest.LastName</td>
+                    <td>@privateGuest.PersonalIdentificationCode</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@privateGuest.Id" asp-route-guesttype="privateguest" asp-route-eventid="@Model.EventId">Delete</a>
+                    </td>
+                </tr>
 
                 }
             </tbody>
@@ -45,13 +45,13 @@
             <tbody>
                 @foreach (var legalPerson in Model.LegalPersons)
                 {
-                    <tr>
-                        <td>@legalPerson.Name</td>
-                        <td>@legalPerson.RegistryCode</td>
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@legalPerson.Id" asp-route-guesttype="legalperson" asp-route-eventid="@Model.EventId">Delete</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@Html.ActionLink(legalPerson.Name, "LegalPersonDetails", "Guests", new { legalPersonId = legalPerson.Id }, null)</td>
+                    <td>@legalPerson.RegistryCode</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@legalPerson.Id" asp-route-guesttype="legalperson" asp-route-eventid="@Model.EventId">Delete</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

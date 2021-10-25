@@ -1,0 +1,64 @@
+﻿@model EventManagement.ViewModels.PrivateGuestViewModel
+@*@model EventManagement.ViewModels.JoinTable*@
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>PrivateGuest</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PersonalIdentificationCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PersonalIdentificationCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PaymentOption)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PaymentOption)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AdditionalInfo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AdditionalInfo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EventId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EventId)
+        </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EventViewModel.EventName)
+            </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EventViewModel.EventName)
+            </dd>
+    </dl>
+</div>
+<div>
+    @*<form asp-action="EditPrivateGuest" method="post">
+            <a asp-action="EditPrivateGuest" asp-route-id="@Model.PrivateGuestViewModel.Id">Edit</a>
+        </form>*@
+    <a asp-action="EditPrivateGuest" asp-route-privateGuestId="@Model.Id">Edit</a> |
+    <a asp-action="Index" asp-controller="Events">Back to List</a>
+</div>

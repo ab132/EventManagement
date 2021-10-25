@@ -1,4 +1,5 @@
 ﻿using EventManagement.Core;
+using EventManagement.Core.ViewModels;
 using EventManagement.Models;
 using EventManagement.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +51,7 @@ namespace EventManagement.Controllers
                 return View(viewModel);
             }
 
-            var eventModel = new Event
+            var eventModel = new Models.Event
             {
                 EventName = viewModel.EventName,
                 Date = viewModel.Date,

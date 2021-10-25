@@ -25,7 +25,7 @@ namespace EventManagement.Models
 
         [Required(ErrorMessage = "Please choose a payment option")]
         [DisplayName("Payment option")]
-        public PaymentOption PaymentOption { get; set; }
+        public PaymentOption? PaymentOption { get; set; }
 
         [StringLength(1500, ErrorMessage = "Additional Info can be max 1500 characters.")]
         [DisplayName("Additional info")]
