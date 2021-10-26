@@ -20,7 +20,12 @@ namespace EventManagement.Controllers
             _unitOfWork = unitOfWork;
         }
         // GET: EventsController
-        public IActionResult Index()
+        public RedirectToActionResult Index()
+        {
+            return RedirectToAction("List");
+        }
+
+        public IActionResult List()
         {
             var events = _unitOfWork.Events.GetEvents();
 
@@ -34,7 +39,7 @@ namespace EventManagement.Controllers
         }
 
         // GET: EventsController/Add
-        public IActionResult Create()
+        public ViewResult Create()
         {
             var viewModel = new EventViewModel();
 
@@ -70,21 +75,6 @@ namespace EventManagement.Controllers
         public ActionResult Edit(int id)
         {
             return View();
-        }
-
-        // POST: EventsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: EventsController/Delete/5

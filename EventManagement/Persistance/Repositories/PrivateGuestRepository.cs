@@ -19,8 +19,6 @@ namespace EventManagement.Persistance.Repositories
 
         public PrivateGuest GetPrivateGuest(int privateGuestId)
         {
-            //return _context.PrivateGuests
-            //        .SingleOrDefault(p => p.Id == privateGuestId);
             return _context.PrivateGuests
                     .Include("Event")
                     .SingleOrDefault(p => p.Id == privateGuestId);

@@ -1,5 +1,4 @@
 ﻿@model EventManagement.ViewModels.PrivateGuestViewModel
-@*@model EventManagement.ViewModels.JoinTable*@
 
 @{
     ViewData["Title"] = "Details";
@@ -56,9 +55,6 @@
     </dl>
 </div>
 <div>
-    @*<form asp-action="EditPrivateGuest" method="post">
-            <a asp-action="EditPrivateGuest" asp-route-id="@Model.PrivateGuestViewModel.Id">Edit</a>
-        </form>*@
     <a asp-action="EditPrivateGuest" asp-route-privateGuestId="@Model.Id">Edit</a> |
     <a asp-action="Index" asp-controller="Events">Back to List</a>
 </div>

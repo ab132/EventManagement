@@ -20,7 +20,7 @@ namespace EventManagement.Controllers
         }
 
         // GET: GuestsController
-        public IActionResult Index()
+        public ViewResult Index()
         {
             return View();
         }
@@ -185,7 +185,8 @@ namespace EventManagement.Controllers
         }
 
         // GET: GuestsController/Edit/5
-        public IActionResult EditPrivateGuest(int privateGuestId)
+        [HttpGet]
+        public ViewResult EditPrivateGuest(int privateGuestId)
         {
             List<string> paymentOptionsList = new List<string>();
 
@@ -213,7 +214,7 @@ namespace EventManagement.Controllers
         }
 
         // GET: GuestsController/Edit/5
-        public IActionResult EditLegalPerson(int legalPersonId)
+        public ViewResult EditLegalPerson(int legalPersonId)
         {
             List<PaymentOption> paymentOptionsList = new List<PaymentOption>();
 
@@ -245,15 +246,15 @@ namespace EventManagement.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditPrivateGuest(PrivateGuestViewModel privateGuestViewModel)
         {
-            var privateGuest = _unitOfWork.PrivateGuests.GetPrivateGuest(privateGuestViewModel.Id);
-
-            if (privateGuest == null)
-                return NotFound();
-
             if (!ModelState.IsValid)
             {
                 return View(privateGuestViewModel);
             }
+
+            var privateGuest = _unitOfWork.PrivateGuests.GetPrivateGuest(privateGuestViewModel.Id);
+
+            if (privateGuest == null)
+                return NotFound();
 
             privateGuest.Id = privateGuestViewModel.Id;
             privateGuest.FirstName = privateGuestViewModel.FirstName;
@@ -274,15 +275,16 @@ namespace EventManagement.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditLegalPerson(LegalPersonViewModel legalPersonViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(legalPersonViewModel);
+            }
+
             var legalPerson = _unitOfWork.LegalPersons.GetLegalPerson(legalPersonViewModel.Id);
 
             if (legalPerson == null)
                 return NotFound();
 
-            if (!ModelState.IsValid)
-            {
-                return View(legalPersonViewModel);
-            }
             legalPerson.Id = legalPersonViewModel.Id;
             legalPerson.Name = legalPersonViewModel.Name;
             legalPerson.RegistryCode = legalPersonViewModel.RegistryCode;

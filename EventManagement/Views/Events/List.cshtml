@@ -1,0 +1,61 @@
+﻿@model IEnumerable<EventManagement.Models.Event>
+
+@{
+    ViewData["Title"] = "Event list";
+}
+
+<h1>Events</h1>
+
+<p>
+    <a asp-action="Create">Create Event</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Venue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfGuests)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdditionalInfo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.EventName, "List", "Guests", new { eventId = item.Id }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Venue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfGuests)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdditionalInfo)
+                </td>
+                <td>
+                    @if (item.Date >= DateTime.Now)
+                    {<a asp-action="Add" asp-controller="Guests" asp-route-id="@item.Id">Add guest</a>} |
+                    @if (item.Date >= DateTime.Now)
+                    {<a asp-action="Delete" asp-route-id="@item.Id">Delete event</a>}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

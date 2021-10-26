@@ -18,7 +18,7 @@ namespace EventManagement.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public ViewResult Index()
         {
             return View();
         }
